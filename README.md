@@ -17,4 +17,4 @@ This program filters out the blue cells and counts them. It begins with a mask l
 
 ![test_image](blue_cells.jpg)
 
-Here you can see the results. The red dots are identified dead cells. The methylene blue penetrates dead cells but doesn't disrupt the living ones.
+Here you can see the results. The red dots are identified dead cells. The methylene blue penetrates dead cells but doesn't disrupt the living ones. As you can see, its pretty accurate.
