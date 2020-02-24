@@ -17,25 +17,34 @@ def getContours(img,imgContour):
     for cnt in contours:
         area = cv2.contourArea(cnt)
         areaMin = cv2.getTrackbarPos("area", "Parameters")
-#        print('area:',area)
+
         if area > areaMin:
+
             count += 1
+
             cv2.drawContours(imgContour, cnt, -1, (255, 0, 255), 3)
-            peri = cv2.arcLength(cnt, True)
-            approx = cv2.approxPolyDP(cnt, 0.02 * peri, True)
-#            print(len(approx))
-            x , y , w, h = cv2.boundingRect(approx)
-#            cv2.rectangle(imgContour, (x , y ), (x + w , y + h ), (0, 255, 0), 5)
+        else:
+            None
+            # peri determines if its a closed perimeter, approx determines shape/number of points
+#            peri = cv2.arcLength(cnt, True)
+#            approx = cv2.approxPolyDP(cnt, 0.02 * peri, True)
+
+#            x , y , w, h = cv2.boundingRect(approx)
+
 
     print('count:',count)
 cv2.namedWindow("Parameters")
 cv2.resizeWindow("Parameters",640,240)
 cv2.createTrackbar("th1","Parameters",23,255,empty)
 cv2.createTrackbar("th2","Parameters",20,255,empty)
-cv2.createTrackbar("area","Parameters",200,500,empty)
+cv2.createTrackbar("area","Parameters",200,220,empty)
 #cv2.createTrackbar("Area","Parameters",5000,30000,empty)
 
 while True:
+    th1 = cv2.getTrackbarPos("th1", "Parameters")
+    th2 = cv2.getTrackbarPos("th2", "Parameters")
+    area = cv2.getTrackbarPos("area","Parameters")
+
     _, frame = cap.read()
     gray_image = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     blurred_image = cv2.GaussianBlur(gray_image, (15,15), 0)
@@ -45,9 +54,7 @@ while True:
     ret, thresh = cv2.threshold(gray_image,0,255,cv2.THRESH_BINARY_INV+cv2.THRESH_OTSU)
     getContours(thresh,imgContour)
 
-    th1 = cv2.getTrackbarPos("th1", "Parameters")
-    th2 = cv2.getTrackbarPos("th2", "Parameters")
-    area = cv2.getTrackbarPos("area","Parameters")
+
 
     img_canny = cv2.Canny(median_blur,th1,th2)
 
